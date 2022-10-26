@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 
 
 public class Main extends Application {
@@ -17,7 +18,7 @@ public class Main extends Application {
 			// get an FXML loader and read in the fxml code
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Main.class.getResource("/PlayerBoard.fxml"));
-			AnchorPane mainLayout = (AnchorPane)loader.load();
+			BorderPane mainLayout = (BorderPane)loader.load();
 			
 			// Create the scene with the layout in the fxml code, set the scene and show it
 			Scene scene = new Scene(mainLayout);

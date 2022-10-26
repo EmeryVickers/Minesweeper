@@ -1,8 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1">
-	<!-- TODO Add Nodes -->
-</AnchorPane>
-
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: lightgray;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PlayerBoardController">
+   <top>
+      <HBox fillHeight="false" prefHeight="39.0" prefWidth="600.0" spacing="60.0" style="-fx-background-color: lightgray; -fx-border-color: black; -fx-border-width: 1.5;" BorderPane.alignment="CENTER">
+         <children>
+            <TextArea fx:id="minesLeftField" blendMode="EXCLUSION" editable="false" maxHeight="45.0" maxWidth="150.0" minHeight="0.0" minWidth="0.0" prefHeight="45.0" prefWidth="150.0" style="-fx-border-color: black; -fx-font-weight: bold;" text="Mines:">
+               <HBox.margin>
+                  <Insets left="50.0" right="50.0" top="5.0" />
+               </HBox.margin>
+               <font>
+                  <Font size="16.0" />
+               </font></TextArea>
+            <Button mnemonicParsing="false" style="-fx-background-color: lightgray;">
+               <graphic>
+                  <ImageView fx:id="mainButton" fitHeight="45.0" fitWidth="45.0" onMouseClicked="#mainButtonClick" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/minesweeper_smiley.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <HBox.margin>
+                  <Insets bottom="5.0" />
+               </HBox.margin>
+            </Button>
+            <TextArea fx:id="clockField" blendMode="EXCLUSION" editable="false" maxHeight="45.0" maxWidth="150.0" minHeight="0.0" minWidth="0.0" prefHeight="45.0" prefWidth="150.0" style="-fx-border-color: black; -fx-font-weight: bold;" text="Time:">
+               <HBox.margin>
+                  <Insets left="50.0" right="50.0" top="5.0" />
+               </HBox.margin>
+               <font>
+                  <Font size="16.0" />
+               </font></TextArea>
+         </children>
+      </HBox>
+   </top>
+</BorderPane>
