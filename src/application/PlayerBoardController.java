@@ -1,6 +1,7 @@
 package application;
 
 import javafx.fxml.FXML;
+import java.util.Random;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -37,13 +38,22 @@ public class PlayerBoardController {
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 10; j++) {
 				// ----- Buttons/Tiles -----// 
-				Button buttonTemp = new Button("  "); 
+				Cell buttonTemp = new Cell(); 
 				buttonTemp.setMinWidth(60);
 				buttonTemp.setMinHeight(35);
 				tiles.add(buttonTemp, i, j);
-				buttonTemp.setId("" + i + ", "+ j + "");
-				System.out.println("" + i + j + " ID: " + buttonTemp.getId());
+				buttonTemp.setId("" + i + j);
+				System.out.println("ID: " + buttonTemp.getId());
 			}
 		}
+	}
+	
+	public void addMines() {
+	    for (int i = 0; i < 10; i++) {
+	    	int randomRow = (int) ((Math.random() * (10 - 0)) + 0);
+	    	int randomColumn = (int) ((Math.random() * (10 - 0)) + 0);
+	    	
+	    	
+	    }
 	}
 }

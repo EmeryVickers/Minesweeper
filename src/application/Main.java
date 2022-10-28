@@ -25,6 +25,7 @@ public class Main extends Application {
 			playerBoard.addTiles();
 			GridPane tiles = playerBoard.tiles; 
 			mainLayout.setCenter(tiles);
+			playerBoard.addMines(); 
 			
 			// Create the scene with the layout in the fxml code, set the scene and show it
 			Scene scene = new Scene(mainLayout);
