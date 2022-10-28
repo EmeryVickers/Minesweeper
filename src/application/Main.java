@@ -4,7 +4,9 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 
 
 public class Main extends Application {
@@ -18,6 +20,11 @@ public class Main extends Application {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Main.class.getResource("/PlayerBoard.fxml"));
 			AnchorPane mainLayout = (AnchorPane)loader.load();
+			
+			// ----- Add GridPane to BorderPane -----//
+			PlayerBoardController playerBoard = new PlayerBoardController(); 
+			playerBoard.addTiles();
+			mainLayout.getChildren().add(playerBoard.tiles);
 			
 			// Create the scene with the layout in the fxml code, set the scene and show it
 			Scene scene = new Scene(mainLayout);
