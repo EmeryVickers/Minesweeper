@@ -38,6 +38,8 @@ public class PlayerBoardController {
 			for (int j = 0; j < 10; j++) {
 				// ----- Buttons/Tiles -----// 
 				Button buttonTemp = new Button("  "); 
+				buttonTemp.setMinWidth(60);
+				buttonTemp.setMinHeight(35);
 				tiles.add(buttonTemp, i, j);
 				buttonTemp.setId("" + i + ", "+ j + "");
 				System.out.println("" + i + j + " ID: " + buttonTemp.getId());
