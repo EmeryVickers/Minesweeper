@@ -1,8 +1,12 @@
 package application;
 
+import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 
+import java.util.ArrayList;
 import java.util.Random;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
@@ -49,6 +53,13 @@ public class PlayerBoardController {
 			for (int j = 0; j < 10; j++) {
 				// ----- Buttons/Tiles -----// 
 				Cell buttonTemp = new Cell(); 
+				buttonTemp.setOnAction(new EventHandler<ActionEvent>() {
+					@Override
+					public void handle(ActionEvent a) {
+						System.out.print("test");
+					}
+				});
+				
 				tiles.add(buttonTemp, i, j);
 				buttonTemp.setId("" + i + j);
 				buttonTemp.setTile(buttonTemp.getId());
@@ -57,11 +68,27 @@ public class PlayerBoardController {
 	}
 	
 	public void addMines() {
-	    for (int i = 0; i < 10; i++) {
-	    	int randomRow = (int) ((Math.random() * (10 - 0)) + 0);
-	    	int randomColumn = (int) ((Math.random() * (10 - 0)) + 0);
-	    	
-	    	
-	    }
-	}
+        ArrayList<Integer> mines = new ArrayList<Integer>();
+        for (int i = 0; i < 10; i++) {
+            int randomRow = (int) ((Math.random() * (10 - 0)) + 0);
+            int randomColumn = (int) ((Math.random() * (10 - 0)) + 0);
+            
+            int newMine = Integer.parseInt("" + randomRow + randomColumn);
+            
+            if (this.isNewMine(mines, newMine)) {
+                mines.add(newMine);
+            } else {
+                i--;
+            }
+        }
+    }
+    
+    public boolean isNewMine(ArrayList<Integer> mines, int newMine) {
+        for (int i = 0; i< mines.size(); i++) {
+            if (newMine == mines.get(i)){
+                return false;
+            }
+        }
+        return true;
+    }
 }
