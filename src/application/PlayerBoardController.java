@@ -56,7 +56,7 @@ public class PlayerBoardController {
 				buttonTemp.setOnAction(new EventHandler<ActionEvent>() {
 					@Override
 					public void handle(ActionEvent a) {
-						System.out.print("test");
+						buttonTemp.userClick();
 					}
 				});
 				
