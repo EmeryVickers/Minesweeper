@@ -1,13 +1,23 @@
 package application;
 
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+
 import java.util.Random;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.control.Button;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 
 public class PlayerBoardController {
 
@@ -39,11 +49,9 @@ public class PlayerBoardController {
 			for (int j = 0; j < 10; j++) {
 				// ----- Buttons/Tiles -----// 
 				Cell buttonTemp = new Cell(); 
-				buttonTemp.setMinWidth(60);
-				buttonTemp.setMinHeight(35);
 				tiles.add(buttonTemp, i, j);
 				buttonTemp.setId("" + i + j);
-				System.out.println("ID: " + buttonTemp.getId());
+				buttonTemp.setTile(buttonTemp.getId());
 			}
 		}
 	}
