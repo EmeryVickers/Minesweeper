@@ -16,6 +16,7 @@ public class Cell extends Button {
 	private String id = "";
 	private boolean isMine = false;
 	private boolean isClicked = false;
+	private int howManyAround = 0;
 	
 	public Cell() {
 		
@@ -24,11 +25,16 @@ public class Cell extends Button {
 	//sets up tile and gets ID after generation
 	public void setTile(String id) {
 		this.id = id;
-		System.out.println(id);
+		
 		this.setMinWidth(60);
 		this.setMinHeight(35);
 		this.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
 		this.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+	}
+	
+	//sets value of cell as mine when called
+	public void setMine() {
+		this.isMine = true;
 	}
 	
 	//gets ID of button
@@ -36,14 +42,19 @@ public class Cell extends Button {
 		return id;
 	}
 	
+	
 	//Handles userClick
 	public void userClick() {
 		if(isClicked == false) {
 			isClicked = true;
 			this.setBackground(new Background(new BackgroundFill(Color.GRAY, CornerRadii.EMPTY, Insets.EMPTY)));
 		}
+			
+		if(isMine==true) {
+			this.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
+		}
 		
+	
+	
 	}
-	
-	
 }
