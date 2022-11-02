@@ -11,6 +11,7 @@ import java.util.Random;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -67,25 +68,34 @@ public class PlayerBoardController {
 		}
 	}
 	
+	//generates mines
 	public void addMines() {
-        ArrayList<Integer> mines = new ArrayList<Integer>();
+        ArrayList<String> mines = new ArrayList<String>();
         for (int i = 0; i < 10; i++) {
             int randomRow = (int) ((Math.random() * (10 - 0)) + 0);
             int randomColumn = (int) ((Math.random() * (10 - 0)) + 0);
             
-            int newMine = Integer.parseInt("" + randomRow + randomColumn);
+            String newMine =("" + randomRow + randomColumn);
             
             if (this.isNewMine(mines, newMine)) {
                 mines.add(newMine);
+                
+                for(Node c : tiles.getChildren()) {
+                	Cell cellC = (Cell)c;
+                	if(cellC.getId().equals(newMine)) {
+                		cellC.setMine();
+                	}
+                }
             } else {
                 i--;
             }
         }
     }
     
-    public boolean isNewMine(ArrayList<Integer> mines, int newMine) {
+	//checks to make sure that generated mine doesnt exist on new mine's cells
+    public boolean isNewMine(ArrayList<String> mines, String newMine) {
         for (int i = 0; i< mines.size(); i++) {
-            if (newMine == mines.get(i)){
+            if (newMine.equals(mines.get(i))){
                 return false;
             }
         }
