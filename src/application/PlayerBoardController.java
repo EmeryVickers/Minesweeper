@@ -8,6 +8,7 @@ import javafx.geometry.Insets;
 
 import java.util.ArrayList;
 import java.util.Random;
+
 import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
