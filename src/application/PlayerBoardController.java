@@ -70,7 +70,7 @@ public class PlayerBoardController {
             int randomRow = (int) ((Math.random() * (10 - 0)) + 0);
             int randomColumn = (int) ((Math.random() * (10 - 0)) + 0);
             
-            String newMine =(randomRow +","+ randomColumn);
+            String newMine = (randomRow +","+ randomColumn);
             
             if (this.isNewMine(mines, newMine)) {
                 mines.add(newMine);
@@ -87,9 +87,9 @@ public class PlayerBoardController {
         }
     }
     
-	//checks to make sure that generated mine doesnt exist on new mine's cells
+	//checks to make sure that generated mine doesn't exist on new mine's cells
     public boolean isNewMine(ArrayList<String> mines, String newMine) {
-        for (int i = 0; i< mines.size(); i++) {
+        for (int i = 0; i < mines.size(); i++) {
             if (newMine.equals(mines.get(i))){
                 return false;
             }
