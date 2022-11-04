@@ -23,7 +23,7 @@ public class Main extends Application {
 			// ----- Add GridPane to BorderPane -----//
 			PlayerBoardController playerBoard = new PlayerBoardController(); 
 			playerBoard.addTiles();
-			GridPane tiles = playerBoard.tiles; 
+			GridPane tiles = Board.newInstance.getBombsBoard(); 
 			mainLayout.setCenter(tiles);
 			playerBoard.addMines(); 
 			

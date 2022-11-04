@@ -39,16 +39,10 @@ public class PlayerBoardController {
     @FXML
     void mainButtonClick(MouseEvent event) {
     }
-
-    Boolean[][] bombsBoard = new Boolean[10][10];
-    
-    Boolean[][] revealedBoard = new Boolean[10][10];
     
     @FXML
     private BorderPane mainLayout;
-	
-	// ----- Create GridPane -----// 
-	GridPane tiles = new GridPane(); 
+
 	
 	public void addTiles() {
 		for (int i = 0; i < 10; i++) {
@@ -62,8 +56,8 @@ public class PlayerBoardController {
 					}
 				});
 				
-				tiles.add(buttonTemp, i, j);
-				buttonTemp.setId("" + i + j);
+				Board.newInstance.addToBombsBoard(buttonTemp,i,j);
+				buttonTemp.setId(i +","+ j);
 				buttonTemp.setTile(buttonTemp.getId());
 			}
 		}
@@ -76,12 +70,12 @@ public class PlayerBoardController {
             int randomRow = (int) ((Math.random() * (10 - 0)) + 0);
             int randomColumn = (int) ((Math.random() * (10 - 0)) + 0);
             
-            String newMine =("" + randomRow + randomColumn);
+            String newMine =(randomRow +","+ randomColumn);
             
             if (this.isNewMine(mines, newMine)) {
                 mines.add(newMine);
                 
-                for(Node c : tiles.getChildren()) {
+                for(Node c : Board.newInstance.getBombsBoard().getChildren()) {
                 	Cell cellC = (Cell)c;
                 	if(cellC.getId().equals(newMine)) {
                 		cellC.setMine();

@@ -45,16 +45,25 @@ public class Cell extends Button {
 	
 	//Handles userClick
 	public void userClick() {
-		if(isClicked == false) {
+		if(!isClicked) {
 			isClicked = true;
 			this.setBackground(new Background(new BackgroundFill(Color.GRAY, CornerRadii.EMPTY, Insets.EMPTY)));
+			
+			if(isMine) {
+				this.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
+			}
+			
+			locateMines();
 		}
 			
-		if(isMine==true) {
-			this.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
-		}
 		
+		
+	}
 	
-	
+	public void locateMines() {
+		
+		String[] idSplit = id.split(",",0);
+		
+		this.setText("3");
 	}
 }
