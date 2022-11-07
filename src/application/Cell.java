@@ -1,5 +1,7 @@
 package application;
 
+import java.util.ArrayList;
+
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Background;
@@ -18,15 +20,15 @@ public class Cell extends Button {
 	private boolean isClicked = false;
 	private int howManyAround = 0;
 	
-	// No-Arg Constructor // 
+	// No-Arg Constructor
 	public Cell() {
 	}
 	
 	// Generate, Style, and Set Tile ID 
 	public void setTile(String id) {
-		// Tile ID // 
+		// Tile ID 
 		this.id = id;
-		// Styling Tiles //
+		// Styling Tiles
 		this.setMinWidth(60);
 		this.setMinHeight(35);
 		this.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
@@ -43,6 +45,16 @@ public class Cell extends Button {
 		return id;
 	}
 	
+	
+	// First Click of Game 
+	public void firstClick(Cell button) {
+		System.out.println("First Click\n" + button.id);
+		
+		// Add Mines AFTER First Click 
+		PlayerBoardController controller = new PlayerBoardController(); 
+		ArrayList<String> mines = controller.mines; 
+		controller.addMines(); 
+	} 
 	
 	// Handles userClick
 	public void userClick() {
@@ -61,8 +73,16 @@ public class Cell extends Button {
 	
 	// Find All Mines 
 	public void locateMines() {
-		
-		String[] idSplit = id.split(",",0);
-		this.setText("3");
-	}
+//        for(Node c: Board.newInstance.getBombsBoard().getChildren()) {
+//            if (surroundsAndMine((Cell)c)) {
+//                
+//            }
+//        }
+        this.setText("" + howManyAround);
+    }
+    
+    public boolean surroundsAndMine(Cell c) {
+    	
+        return false;
+    }
 }

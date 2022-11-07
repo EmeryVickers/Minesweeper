@@ -4,7 +4,7 @@ import javafx.scene.layout.GridPane;
 
 public class Board{
 	
-	// No-Arg Constructor // 
+	// No-Arg Constructor 
 	private Board() {
 	}
 	
