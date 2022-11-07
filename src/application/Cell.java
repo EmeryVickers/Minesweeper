@@ -1,6 +1,7 @@
 package application;
 
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -51,19 +52,75 @@ public class Cell extends Button {
 			
 			if(isMine) {
 				this.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
+				
 			}
 			
-			locateMines();
+			//split
+			String[] idSplitter = id.split(",",0);
+			int y = Integer.parseInt(idSplitter[0]);
+			int x = Integer.parseInt(idSplitter[1]);
+			
+			callNeighbors(x,y);
 		}
 			
 		
 		
 	}
 	
+	public void revealSelf() {
+		// reveal the number if mine
+	}
+	
+	public int callNeighbors(int i, int j) {
+		// call its neighbors which inturn would call their neighbors
+		
+		
+		if(i <= 9 && i >=0 && j <= 9 && j >= 0) {
+			howManyAround += callNeighbors(i-1, j-1);
+			howManyAround += callNeighbors(i-1, j);
+			howManyAround += callNeighbors(i-1, j+1);
+			howManyAround += callNeighbors(i, j-1);
+			howManyAround += callNeighbors(i, j+1);
+			howManyAround += callNeighbors(i-1, j);
+			howManyAround += callNeighbors(i+1, j);
+			howManyAround += callNeighbors(i+1, j+1);
+		}else{
+			howManyAround = 0;
+		}
+		// if neighbor(i-1,j-1) is mine then  howManyAround++ return 
+		//else
+		
+		//
+		
+
+		
+		return howManyAround;
+		
+
+	}
+	
 	public void locateMines() {
 		
-		String[] idSplit = id.split(",",0);
+		Board.newInstance.getBombsBoard().getRowIndex(this);
+		Board.newInstance.getBombsBoard().getColumnIndex(this);
 		
-		this.setText("3");
+		
+		for(Node c: Board.newInstance.getBombsBoard().getChildren())
+		{
+			if (surroundsAndMine((Cell)c)) {
+				
+			}
+		}
+		
+		this.setText(howManyAround);
 	}
+	
+	public boolean surroundsAndMine(Cell c) {
+		
+		
+		return false;
+		
+	}
+	
+	
 }
