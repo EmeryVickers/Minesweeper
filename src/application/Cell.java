@@ -48,7 +48,7 @@ public class Cell extends Button {
 	public void userClick() {
 		if(!isClicked) {
 			isClicked = true;
-			this.setBackground(new Background(new BackgroundFill(Color.GRAY, CornerRadii.EMPTY, Insets.EMPTY)));
+			
 			
 			if(isMine) {
 				this.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
@@ -60,6 +60,8 @@ public class Cell extends Button {
 			int y = Integer.parseInt(idSplitter[0]);
 			int x = Integer.parseInt(idSplitter[1]);
 			
+		
+			System.out.println(x+" "+y);
 			callNeighbors(x,y);
 		}
 			
@@ -69,36 +71,47 @@ public class Cell extends Button {
 	
 	public void revealSelf() {
 		// reveal the number if mine
+		this.setBackground(new Background(new BackgroundFill(Color.GRAY, CornerRadii.EMPTY, Insets.EMPTY)));
+		if(howManyAround==0) {
+			
+		} else {
+			this.setText(String.valueOf(howManyAround));
+		}
 	}
 	
 	public int callNeighbors(int i, int j) {
 		// call its neighbors which inturn would call their neighbors
 		
-		
-		if(i <= 9 && i >=0 && j <= 9 && j >= 0) {
-			howManyAround += callNeighbors(i-1, j-1);
-			howManyAround += callNeighbors(i-1, j);
-			howManyAround += callNeighbors(i-1, j+1);
-			howManyAround += callNeighbors(i, j-1);
-			howManyAround += callNeighbors(i, j+1);
-			howManyAround += callNeighbors(i-1, j);
-			howManyAround += callNeighbors(i+1, j);
-			howManyAround += callNeighbors(i+1, j+1);
-		}else{
-			howManyAround = 0;
+		if(i > 9 || i <0) {
+			return 0;
 		}
-		// if neighbor(i-1,j-1) is mine then  howManyAround++ return 
-		//else
-		
-		//
+		if(j > 9 || j < 0) {
+			return 0;
+		}
 		
 
+		
+		if(this.isMine) {
+			return 1;
+		}
+
+		howManyAround += callNeighbors(i-1, j-1);
+		howManyAround += callNeighbors(i-1, j);
+		howManyAround += callNeighbors(i-1, j+1);
+		howManyAround += callNeighbors(i, j-1);
+		howManyAround += callNeighbors(i, j+1);
+		howManyAround += callNeighbors(i+1, j);
+		howManyAround += callNeighbors(i+1, j-1);
+		howManyAround += callNeighbors(i+1, j+1);
+		
+		revealSelf();
 		
 		return howManyAround;
 		
 
 	}
 	
+	/**
 	public void locateMines() {
 		
 		Board.newInstance.getBombsBoard().getRowIndex(this);
@@ -121,6 +134,6 @@ public class Cell extends Button {
 		return false;
 		
 	}
-	
+	**/
 	
 }
