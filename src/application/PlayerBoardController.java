@@ -43,11 +43,11 @@ public class PlayerBoardController {
     @FXML
     private BorderPane mainLayout;
 
-	
+    // Add tiles to Board instance  
 	public void addTiles() {
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 10; j++) {
-				// ----- Buttons/Tiles -----// 
+				// ----- Buttons/Tiles ----- // 
 				Cell buttonTemp = new Cell(); 
 				buttonTemp.setOnAction(new EventHandler<ActionEvent>() {
 					@Override
@@ -56,6 +56,7 @@ public class PlayerBoardController {
 					}
 				});
 				
+				// Add bomb to Board instance 
 				Board.newInstance.addToBombsBoard(buttonTemp,i,j);
 				buttonTemp.setId(i +","+ j);
 				buttonTemp.setTile(buttonTemp.getId());
@@ -63,18 +64,19 @@ public class PlayerBoardController {
 		}
 	}
 	
-	//generates mines
+	// Generate Mines 
 	public void addMines() {
         ArrayList<String> mines = new ArrayList<String>();
         for (int i = 0; i < 10; i++) {
+        	// Randomly selectr row and column to set mine locations 
             int randomRow = (int) ((Math.random() * (10 - 0)) + 0);
             int randomColumn = (int) ((Math.random() * (10 - 0)) + 0);
             
+            // Mine Location 
             String newMine = (randomRow +","+ randomColumn);
-            
             if (this.isNewMine(mines, newMine)) {
                 mines.add(newMine);
-                
+                // If mine location == location on Board instance  
                 for(Node c : Board.newInstance.getBombsBoard().getChildren()) {
                 	Cell cellC = (Cell)c;
                 	if(cellC.getId().equals(newMine)) {
@@ -82,12 +84,14 @@ public class PlayerBoardController {
                 	}
                 }
             } else {
+            	// If mine location is taken, redo process (to guarantee 10 mines) 
                 i--;
             }
         }
     }
     
-	//checks to make sure that generated mine doesn't exist on new mine's cells
+
+	// Check if newMine is in valid location //
     public boolean isNewMine(ArrayList<String> mines, String newMine) {
         for (int i = 0; i < mines.size(); i++) {
             if (newMine.equals(mines.get(i))){

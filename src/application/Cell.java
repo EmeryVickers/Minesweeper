@@ -12,58 +12,57 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 
 public class Cell extends Button {
-	
+	// Private Data Field // 
 	private String id = "";
 	private boolean isMine = false;
 	private boolean isClicked = false;
 	private int howManyAround = 0;
 	
+	// No-Arg Constructor // 
 	public Cell() {
-		
 	}
 	
-	//sets up tile and gets ID after generation
+	// Generate, Style, and Set Tile ID 
 	public void setTile(String id) {
+		// Tile ID // 
 		this.id = id;
-		
+		// Styling Tiles //
 		this.setMinWidth(60);
 		this.setMinHeight(35);
 		this.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
 		this.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
 	}
 	
-	//sets value of cell as mine when called
+	// Mine Setter 
 	public void setMine() {
 		this.isMine = true;
 	}
 	
-	//gets ID of button
+	// Tile ID Getter 
 	public String getID() {
 		return id;
 	}
 	
 	
-	//Handles userClick
+	// Handles userClick
 	public void userClick() {
 		if(!isClicked) {
+			// Non-Mine
 			isClicked = true;
 			this.setBackground(new Background(new BackgroundFill(Color.GRAY, CornerRadii.EMPTY, Insets.EMPTY)));
-			
+			// Mine 
 			if(isMine) {
 				this.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
 			}
 			
 			locateMines();
 		}
-			
-		
-		
 	}
 	
+	// Find All Mines 
 	public void locateMines() {
 		
 		String[] idSplit = id.split(",",0);
-		
 		this.setText("3");
 	}
 }
