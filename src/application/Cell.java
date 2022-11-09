@@ -17,6 +17,7 @@ public class Cell extends Button {
 	private String id = "";
 	private boolean isMine = false;
 	private boolean isClicked = false;
+	private boolean isChecked = false;
 	private int howManyAround = 0;
 	
 	public Cell() {
@@ -47,40 +48,60 @@ public class Cell extends Button {
 	//Handles userClick
 	public void userClick() {
 		if(!isClicked) {
-			isClicked = true;
 			
 			
 			if(isMine) {
 				this.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
-				
-			}
-			
+				System.out.print("Game over");
+				return;
+			}			
 			//split
 			String[] idSplitter = id.split(",",0);
 			int y = Integer.parseInt(idSplitter[0]);
 			int x = Integer.parseInt(idSplitter[1]);
 			
-		
-			System.out.println(x+" "+y);
-			callNeighbors(x,y);
+
+			int mines = callNeighbors(x,y);
+			revealSelf(mines);
+			isClicked = true;
+	
 		}
 			
 		
 		
 	}
 	
-	public void revealSelf() {
+	public void revealSelf(int mine) {
 		// reveal the number if mine
 		this.setBackground(new Background(new BackgroundFill(Color.GRAY, CornerRadii.EMPTY, Insets.EMPTY)));
-		if(howManyAround==0) {
-			
-		} else {
-			this.setText(String.valueOf(howManyAround));
-		}
+		
+//		if(howManyAround==0) {
+//			
+//		} else {
+			this.setText(String.valueOf(mine));
+//			}
 	}
 	
+	public int callNeighbors(Cell cell) {
+
+		
+		
+		return 0;
+	}
+	
+	
+	//TODO here is the variable to keep track of the current cell. dont forget to delete if it doesnt work
+	//Additionally, change all instances of "currCell" to "this"
 	public int callNeighbors(int i, int j) {
 		// call its neighbors which inturn would call their neighbors
+		System.out.println(i+" "+j);
+		String idString=i+","+j;
+		
+		Cell cell = Board.newInstance.getCell(idString);
+		
+		//TODO we need to get the actual cell. We are currently getting coordinates,
+		//but these are just integers. We need to access the actual cell that the coordinates are
+		//Here is my attempt (not correct):
 		
 		if(i > 9 || i <0) {
 			return 0;
@@ -89,24 +110,28 @@ public class Cell extends Button {
 			return 0;
 		}
 		
-
+		if(cell.isChecked) {
+			System.out.println("already checked");
+			return howManyAround;
+		}
 		
-		if(this.isMine) {
+		cell.isChecked = true;
+		
+		if(cell.isMine) {
+			System.out.println("mine");
 			return 1;
 		}
-
-		howManyAround += callNeighbors(i-1, j-1);
-		howManyAround += callNeighbors(i-1, j);
-		howManyAround += callNeighbors(i-1, j+1);
-		howManyAround += callNeighbors(i, j-1);
-		howManyAround += callNeighbors(i, j+1);
-		howManyAround += callNeighbors(i+1, j);
-		howManyAround += callNeighbors(i+1, j-1);
-		howManyAround += callNeighbors(i+1, j+1);
 		
-		revealSelf();
+		cell.howManyAround += cell.callNeighbors(i-1, j-1);
+		cell.howManyAround += cell.callNeighbors(i-1, j);
+		cell.howManyAround += cell.callNeighbors(i-1, j+1);
+		cell.howManyAround += cell.callNeighbors(i, j-1);
+		cell.howManyAround += cell.callNeighbors(i, j+1);
+		cell.howManyAround += cell.callNeighbors(i+1, j);
+		cell.howManyAround += cell.callNeighbors(i+1, j-1);
+		cell.howManyAround += cell.callNeighbors(i+1, j+1);
 		
-		return howManyAround;
+		return cell.howManyAround;
 		
 
 	}
@@ -137,3 +162,5 @@ public class Cell extends Button {
 	**/
 	
 }
+
+
