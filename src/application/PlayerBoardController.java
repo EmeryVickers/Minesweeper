@@ -24,6 +24,7 @@ import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 public class PlayerBoardController {
 
@@ -31,17 +32,39 @@ public class PlayerBoardController {
     private TextArea clockField;
 
     @FXML
-    private ImageView mainButton;
+    private Button mainButton;
+
+    @FXML
+    private ImageView mainButtonImg;
 
     @FXML
     private TextArea minesLeftField;
     
     @FXML
     private BorderPane mainLayout;
+    
+    int minesLeft = 10;
 
+    
+    //handles when the main button is clicked based on the game state
     @FXML
     void mainButtonClick(MouseEvent event) {
+    	//if game hasnt started yet do nothing
+    	
+    	//if game has started, reset
+    	
+    	/** TODO this code doesn't fully reset everything, need to fix
+    	 * 
+    	firstClick = false;
+    	Main app = new Main();
+    	System.out.println("restart");
+    	app.start(new Stage());
+    	minesLeft = 10;
+    	**/
+    	
     }
+    
+    
     // Test if it is the user's first click 
     private Boolean firstClick = true; 
     // ArrayList to hold each mine on the GridPane 
@@ -66,10 +89,17 @@ public class PlayerBoardController {
 						} else {
 							// If it is not the first click... 
 							buttonTemp.userClick(); 
+							
+							/**TODO ad right click handler
+							if (a.getButton() == MouseButton.SECONDARY) {
+								
+							}
+							**/
 						}
 					
 					}
 				});
+				
 				
 				// Add button to Board instance
 				Board.newInstance.addToBombsBoard(buttonTemp, i, j);
@@ -143,5 +173,17 @@ public class PlayerBoardController {
             
         }
         return true;
+    }
+    
+    
+    //adjust mine counter in top left
+    public void adjustMineCounter(Cell cell) {
+    	if(cell.flagState) {
+    		minesLeft = minesLeft-1;
+    		
+    	}else {
+    		minesLeft = minesLeft+1;
+    	}
+    	minesLeftField.setText("Mines: "+minesLeft);
     }
 }

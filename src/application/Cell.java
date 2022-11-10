@@ -5,8 +5,13 @@ import java.util.ArrayList;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
@@ -18,9 +23,10 @@ public class Cell extends Button {
 	// Private Data Field 
 	private String id = "";
 	private boolean isMine = false;
-	private boolean isClicked = false;
+	private boolean isRevealed = false;
 	private boolean isChecked = false;
 	public int howManyAround;
+	public boolean flagState = false;
 	
 	// No-Arg Constructor
 	public Cell() {
@@ -66,9 +72,9 @@ public class Cell extends Button {
 	
 	// Handles userClick
 	public void userClick() {
-		if(!isClicked) {
+		if(!isRevealed) {
 			// If not a mine... 
-			isClicked = true;
+			isRevealed = true;
 			this.setBackground(new Background(new BackgroundFill(Color.GRAY, CornerRadii.EMPTY, Insets.EMPTY)));
 			// Check if user clicked on mine 
 			if(isMine) {
@@ -88,9 +94,31 @@ public class Cell extends Button {
 					neighbor.revealSelf();
 				}
 			}
-			
-			isClicked = true;
+			//TODO remove toggleFlag THIS IS SIMPLY FOR TESTING !!!!!!!!!!!
+			toggleFlag();
 		}
+	}
+	
+	//flags or unflags a cell
+	public void toggleFlag() {
+		if(flagState) {
+			flagState = false;
+		}else {
+			flagState = true;
+			//set background to flag
+			/** TODO image won't display... return to fix
+			BackgroundImage bgImage = new BackgroundImage(new Image("minesweeper_flag.png",100,100,false,true),
+			BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+			
+			this.setBackground(new Background(bgImage));
+			
+			Temporary fix below**/
+			
+			this.setText("F");
+			
+
+		}
+		
 	}
 	
 	// Find All Mines 
@@ -117,6 +145,7 @@ public class Cell extends Button {
 	public void revealSelf() {
 		// Reveal the number if mine
 		this.setBackground(new Background(new BackgroundFill(Color.GRAY, CornerRadii.EMPTY, Insets.EMPTY)));
+		isRevealed = true;
 	}
 	
 	//TODO here is the variable to keep track of the current cell. don't forget to delete if it doesn't work
