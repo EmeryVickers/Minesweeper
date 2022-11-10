@@ -82,12 +82,13 @@ public class Cell extends Button {
 			int y = Integer.parseInt(idSplitter[0]);
 			int x = Integer.parseInt(idSplitter[1]);
 			
-			// 
-			for(Cell neighbor: Board.newInstance.getNeighbors(this)) {
+			
+			callNeighbors(x, y);
+			/*for(Cell neighbor: Board.newInstance.getNeighbors(this)) {
 				if (!neighbor.isMine) {
 					neighbor.revealSelf();
 				}
-			}
+			}*/
 			
 			isClicked = true;
 		}
@@ -121,7 +122,7 @@ public class Cell extends Button {
 	
 	//TODO here is the variable to keep track of the current cell. don't forget to delete if it doesn't work
 	//Additionally, change all instances of "currCell" to "this"
-	public int callNeighbors(int i, int j) {
+	public boolean callNeighbors(int i, int j) {
 		
 		// Calls neighbors to recursively call the following cell's neighbors 
 		System.out.println(i + " " + j);
@@ -145,7 +146,7 @@ public class Cell extends Button {
 		// 
 		if (cell.isChecked) {
 			System.out.println("already checked");
-			return howManyAround;
+			return false;
 		}
 		
 		//
@@ -154,10 +155,20 @@ public class Cell extends Button {
 		// 
 		if (cell.isMine) {
 			System.out.println("mine");
-			return 1;
+			return false;
+		} else {
+			cell.revealSelf();
 		}
-	
-		return this.howManyAround; 
+		
+		callNeighbors(i-1, j);
+		callNeighbors(i-1, j+1);
+		callNeighbors(i, j-1);
+		callNeighbors(i, j+1);
+		callNeighbors(i+1, j);
+		callNeighbors(i+1, j-1);
+		callNeighbors(i+1, j+1);
+		
+		return false; 
 //		this.howManyAround += cell.callNeighbors(i-1, j-1);
 //		this.howManyAround += cell.callNeighbors(i-1, j);
 //		this.howManyAround += cell.callNeighbors(i-1, j+1);
