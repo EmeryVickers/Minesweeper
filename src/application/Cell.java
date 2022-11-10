@@ -15,7 +15,7 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 
 public class Cell extends Button {
-	// Private Data Field // 
+	// Private Data Field 
 	private String id = "";
 	private boolean isMine = false;
 	private boolean isClicked = false;
@@ -62,27 +62,29 @@ public class Cell extends Button {
 	// Handles userClick
 	public void userClick() {
 		if(!isClicked) {
-			// Non-Mine
+			// If not a mine... 
 			isClicked = true;
 			this.setBackground(new Background(new BackgroundFill(Color.GRAY, CornerRadii.EMPTY, Insets.EMPTY)));
-			// Mine 
+			// Check if user clicked on mine 
 			if(isMine) {
 				this.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
+				// Exit the program after displaying GAME OVER or reset the board 
 				System.out.println("Game over");
-				// exit the program after displaying GAME OVER or reset the board
-			}			
-			//split
+			}	
+			
+			// Split and Parse Cell ID into X/Y Coordinates 
 			String[] idSplitter = id.split(",",0);
 			int y = Integer.parseInt(idSplitter[0]);
 			int x = Integer.parseInt(idSplitter[1]);
 			
+			// 
 			for(Cell neighbor: Board.newInstance.getNeighbors(this)) {
 				if (!neighbor.isMine) {
 					neighbor.revealSelf();
 				}
 			}
+			
 			isClicked = true;
-	
 		}
 	}
 	
@@ -91,43 +93,35 @@ public class Cell extends Button {
 		return isMine;
 	}
 
+	// Sets current cell as a mine
 	public void setMine(boolean isMine) {
 		this.isMine = isMine;
 	}
 
+	// Returns number of mines around the cell
 	public int getHowManyAround() {
 		return howManyAround;
 	}
 
+	// Sets the number of mines around the cell
 	public void setHowManyAround(int howManyAround) {
 		this.howManyAround = howManyAround;
 	}
 
+	// Reveals the cell and shows number of mines
 	public void revealSelf() {
-		// reveal the number if mine
+		// Reveal the number if mine
 		this.setBackground(new Background(new BackgroundFill(Color.GRAY, CornerRadii.EMPTY, Insets.EMPTY)));
-		
-//		if(howManyAround==0) {
-//			
-//		} else {
 		this.setText(String.valueOf(howManyAround));
-//			}
 	}
-//	
-//	public int callNeighbors(Cell cell) {
-//
-//		for (int i = 0)
-//		
-//		return 0;
-//	}
-//	
 	
-	//TODO here is the variable to keep track of the current cell. dont forget to delete if it doesnt work
+	//TODO here is the variable to keep track of the current cell. don't forget to delete if it doesn't work
 	//Additionally, change all instances of "currCell" to "this"
 	public int callNeighbors(int i, int j) {
-		// call its neighbors which inturn would call their neighbors
-		System.out.println(i+" "+j);
-		String idString=i+","+j;
+		
+		// Calls neighbors to recursively call the following cell's neighbors 
+		System.out.println(i + " " + j);
+		String idString = i + "," + j;
 		
 		Cell cell = Board.newInstance.getCell(idString);
 		
@@ -135,28 +129,30 @@ public class Cell extends Button {
 		//but these are just integers. We need to access the actual cell that the coordinates are
 		//Here is my attempt (not correct):
 		
-		if(i > 9 || i <0) {
+		//
+		if (i > 9 || i <0) {
 			return 0;
 		}
-		if(j > 9 || j < 0) {
+		// 
+		if (j > 9 || j < 0) {
 			return 0;
 		}
-		
-		if(cell.isChecked) {
+		// 
+		if (cell.isChecked) {
 			System.out.println("already checked");
 			return howManyAround;
 		}
 		
+		//
 		cell.isChecked = true;
 		
-		if(cell.isMine) {
+		// 
+		if (cell.isMine) {
 			System.out.println("mine");
 			return 1;
 		}
-		
-		
 	
-
+		return this.howManyAround; 
 //		this.howManyAround += cell.callNeighbors(i-1, j-1);
 //		this.howManyAround += cell.callNeighbors(i-1, j);
 //		this.howManyAround += cell.callNeighbors(i-1, j+1);
@@ -165,49 +161,7 @@ public class Cell extends Button {
 //		this.howManyAround += cell.callNeighbors(i+1, j);
 //		this.howManyAround += cell.callNeighbors(i+1, j-1);
 //		this.howManyAround += cell.callNeighbors(i+1, j+1);
-		
-		return this.howManyAround;
-		
-
 	}
-	
-	/* 
-	public void locateMines() {
-//        for(Node c: Board.newInstance.getBombsBoard().getChildren()) {
-//            if (surroundsAndMine((Cell)c)) {
-//                
-//            }
-//        }
-        this.setText("" + howManyAround);
-    }
-    
-    public boolean surroundsAndMine(Cell c) {
-    	
-        return false;
-    }
-=======
-		
-		Board.newInstance.getBombsBoard().getRowIndex(this);
-		Board.newInstance.getBombsBoard().getColumnIndex(this);
-		
-		
-		for(Node c: Board.newInstance.getBombsBoard().getChildren())
-		{
-			if (surroundsAndMine((Cell)c)) {
-				
-			}
-		}
-		
-		this.setText(howManyAround);
-	}
-	
-	public boolean surroundsAndMine(Cell c) {
-		
-		
-		return false;
-		
-	}
-	**/
 }
 
 

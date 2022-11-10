@@ -42,65 +42,63 @@ public class PlayerBoardController {
     @FXML
     void mainButtonClick(MouseEvent event) {
     }
-    
-    private Boolean firstClick = false; 
-    
+    // Test if it is the user's first click 
+    private Boolean firstClick = true; 
+    // ArrayList to hold each mine on the GridPane 
     public ArrayList<String> mines = new ArrayList<String>();
 
-    // Add tiles to Board instance  
+    // Add tiles to Board instance 
 	public void addTiles() {
+		// Loop through each GridPane coordinate 
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 10; j++) {
-				// ----- Buttons/Tiles ----- // 
+				// Temporary Cell/Tile -> to be added to the GridPane(tiles) 
 				Cell buttonTemp = new Cell(); 
+				// Handle "click" on each cell 
 				buttonTemp.setOnAction(new EventHandler<ActionEvent>() {
 					@Override
 					public void handle(ActionEvent a) {
-						if (firstClick == false) {
+						// If it is the first click... 
+						if (firstClick == true) {
 							Cell newCell = new Cell(); 
 							newCell.firstClick(buttonTemp); 
 						}
 						
-						firstClick = true; 
+						// If it is not the first click... 
+						firstClick = false; 
 						buttonTemp.userClick(); 
 					}
 				});
 				
-				// Add button to Board instance 
-				Board.newInstance.addToBombsBoard(buttonTemp,i,j);
-				buttonTemp.setId(i +","+ j);
+				// Add button to Board instance
+				Board.newInstance.addToBombsBoard(buttonTemp, i, j);
+				buttonTemp.setId(i + "," + j);
 				buttonTemp.setTile(buttonTemp.getId());
 			}
 		}
 	}
 	
 	// Generate Mines 
-	public void setCellText() {
-		// get the neigbors
-		
-		// loops thru that and if the cell has bomb then increment the counter ++
+	public void setCellText() { 
+		// Loop through neighbors and increment count for cell based on proximity to mine 
 		for (int i = 0; i < 10; i++) {
-			for (int j = 0; j < 10; j++) {
-				Cell cell = Board.newInstance.getCell(i+","+j);
+			for (int j = 0; j < 10; j++) { 
+				// Create instance of Board Cell 
+				Cell cell = Board.newInstance.getCell(i + "," + j);
 				int count = 0;
-				
-				//what would happen if the cell itself is a mine... handle that!
-				
+				// For each cell, find the neighboring cells and test if they are a mine 
 				for (Cell neighbor: Board.newInstance.getNeighbors(cell)) {
 					if (neighbor.isMine()) {
 						cell.setHowManyAround(count++);
 					}
 				}
-				
-				cell.setText(""+cell.getHowManyAround());
-				
+				// Set the text on each cell with distance to neighboring mines 
+				cell.setText("" + cell.getHowManyAround());
 			}
 		}
-
 	}
 	
-	
-	//generates mines
+	// Add mines to Board 
 	public void addMines() {
         for (int i = 0; i < 10; i++) {
         	// Randomly select row and column to set mine locations 
@@ -119,7 +117,7 @@ public class PlayerBoardController {
                 	}
                 }
             } else {
-            	// If mine location is taken, redo process (to guarantee 10 mines) 
+            	// If mine location is taken, re-do process (to guarantee 10 mines) 
                 i--;
             }
         }
@@ -128,7 +126,9 @@ public class PlayerBoardController {
 
 	// Check if newMine is in valid location 
     public boolean isNewMine(ArrayList<String> mines, String newMine) {
+    	// Loop through ArrayList of mines 
         for (int i = 0; i < mines.size(); i++) {
+        	// Check if mine is already set at location 
             if (newMine.equals(mines.get(i))){
                 return false;
             }
