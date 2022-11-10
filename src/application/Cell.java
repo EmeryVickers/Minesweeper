@@ -68,35 +68,36 @@ public class Cell extends Button {
 		ArrayList<String> mines = controller.mines; 
 		controller.addMines(); 
 		controller.setCellText();
+		
 	} 
 	
 	// Handles userClick
 	public void userClick() {
-		if(!isRevealed) {
-			// If not a mine... 
-			isRevealed = true;
-			this.setBackground(new Background(new BackgroundFill(Color.GRAY, CornerRadii.EMPTY, Insets.EMPTY)));
-			// Check if user clicked on mine 
-			if(isMine) {
-				this.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
-				// Exit the program after displaying GAME OVER or reset the board 
-				System.out.println("Game over");
-			}	
-			
-			// Split and Parse Cell ID into X/Y Coordinates 
-			String[] idSplitter = id.split(",",0);
-			int y = Integer.parseInt(idSplitter[0]);
-			int x = Integer.parseInt(idSplitter[1]);
-			
-			// 
-			for(Cell neighbor: Board.newInstance.getNeighbors(this)) {
-				if (!neighbor.isMine) {
-					neighbor.revealSelf();
+		//TODO add if statement so that user can only click when game isnt won/over
+			if(!isRevealed && !flagState) {
+				// If not a mine... 
+				isRevealed = true;
+				this.setBackground(new Background(new BackgroundFill(Color.GRAY, CornerRadii.EMPTY, Insets.EMPTY)));
+				// Check if user clicked on mine 
+				if(isMine) {
+					this.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
+					// Exit the program after displaying GAME OVER or reset the board 
+					System.out.println("Game over");
+				}	
+				
+				// Split and Parse Cell ID into X/Y Coordinates 
+				String[] idSplitter = id.split(",",0);
+				int y = Integer.parseInt(idSplitter[0]);
+				int x = Integer.parseInt(idSplitter[1]);
+				
+				// 
+				for(Cell neighbor: Board.newInstance.getNeighbors(this)) {
+					if (!neighbor.isMine) {
+						neighbor.revealSelf();
+					}
 				}
+			Board.newInstance.checkForWin();
 			}
-			//TODO remove toggleFlag THIS IS SIMPLY FOR TESTING !!!!!!!!!!!
-			toggleFlag();
-		}
 	}
 	
 	//flags or unflags a cell
@@ -115,7 +116,6 @@ public class Cell extends Button {
 			Temporary fix below**/
 			
 			this.setText("F");
-			
 
 		}
 		
@@ -131,6 +131,11 @@ public class Cell extends Button {
 		this.isMine = isMine;
 	}
 
+	//gets whether cell is revealed or not
+	public boolean getRevealed() {
+		return isRevealed;
+	}
+	
 	// Returns number of mines around the cell
 	public int getHowManyAround() {
 		return howManyAround;

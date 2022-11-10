@@ -48,7 +48,7 @@ public class Board{
 		int x = Integer.parseInt(idSplitter[0]);
 		int y = Integer.parseInt(idSplitter[1]);
     	
-		System.out.println("XY: " + x + y);
+
 		
 		// Loops through neighboring cells to the received cell and adding to "neighbors" ArrayList 
     	for(int k = -1; k<=1; k++) {
@@ -58,7 +58,6 @@ public class Board{
 				if (isValid(x+k,y+l)) {
 					if (!cell.getID().equals(id)) {
 						neighbors.add(getCell(id));
-						System.out.println("added: "+id);
 					}
 				}
 				
@@ -67,6 +66,7 @@ public class Board{
     	return neighbors;
     }
     
+    //makes sure coordinates are not out of bounds
     public boolean isValid(int x, int y) {
 		if (x > 9 || x < 0) {
 			return false;
@@ -77,4 +77,17 @@ public class Board{
 		}
     	return true;
     }
+    
+    //check for if the player has won
+    public void checkForWin() {
+    	//if there exists a cell that isnt a mine and isnt broken, the user hasnt won yet
+    	 for (Node c: this.tiles.getChildren()) {
+    		 if (!((Cell)c).isMine() && !((Cell)c).getRevealed()){
+    			 return;
+             }
+    		 
+    	 }
+    	 System.out.println("win!");
+	}
+    
 }
