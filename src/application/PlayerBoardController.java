@@ -60,13 +60,14 @@ public class PlayerBoardController {
 					public void handle(ActionEvent a) {
 						// If it is the first click... 
 						if (firstClick == true) {
+							firstClick = false;
 							Cell newCell = new Cell(); 
 							newCell.firstClick(buttonTemp); 
+						} else {
+							// If it is not the first click... 
+							buttonTemp.userClick(); 
 						}
-						
-						// If it is not the first click... 
-						firstClick = false; 
-						buttonTemp.userClick(); 
+					
 					}
 				});
 				
@@ -89,11 +90,16 @@ public class PlayerBoardController {
 				// For each cell, find the neighboring cells and test if they are a mine 
 				for (Cell neighbor: Board.newInstance.getNeighbors(cell)) {
 					if (neighbor.isMine()) {
-						cell.setHowManyAround(count++);
+						count = count + 1;
+						cell.howManyAround = count;
+						
 					}
 				}
+				
 				// Set the text on each cell with distance to neighboring mines 
-				cell.setText("" + cell.getHowManyAround());
+				if (cell.getHowManyAround() != 0) {
+					cell.setText(""+cell.getHowManyAround());
+				}
 			}
 		}
 	}
@@ -122,6 +128,8 @@ public class PlayerBoardController {
             }
         }
     }
+	
+	
     
 
 	// Check if newMine is in valid location 
@@ -132,6 +140,7 @@ public class PlayerBoardController {
             if (newMine.equals(mines.get(i))){
                 return false;
             }
+            
         }
         return true;
     }

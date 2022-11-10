@@ -40,20 +40,41 @@ public class Board{
     	// ArrayList of neighboring cells to the given cell 
     	ArrayList<Cell> neighbors = new ArrayList<>();
     	
+
+    	
     	// Split ID of Cell into X/Y Coordinates 
     	String[] idSplitter = cell.getId().split("," , 0);
     	// Parse X/Y Coordinate of Cell 
-		int y = Integer.parseInt(idSplitter[0]);
-		int x = Integer.parseInt(idSplitter[1]);
+		int x = Integer.parseInt(idSplitter[0]);
+		int y = Integer.parseInt(idSplitter[1]);
     	
+		System.out.println("XY: " + x + y);
+		
 		// Loops through neighboring cells to the received cell and adding to "neighbors" ArrayList 
     	for(int k = -1; k<=1; k++) {
 			for(int l = -1; l <= 1; l++) {
 				String id = "" + (x + k) + "," + (y + l);
-				neighbors.add(getCell(id));
+				
+				if (isValid(x+k,y+l)) {
+					if (!cell.getID().equals(id)) {
+						neighbors.add(getCell(id));
+						System.out.println("added: "+id);
+					}
+				}
+				
 			}
 		}
-
     	return neighbors;
+    }
+    
+    public boolean isValid(int x, int y) {
+		if (x > 9 || x < 0) {
+			return false;
+		}
+		// 
+		if (x > 9 || x < 0) {
+			return false;
+		}
+    	return true;
     }
 }

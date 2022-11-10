@@ -20,7 +20,7 @@ public class Cell extends Button {
 	private boolean isMine = false;
 	private boolean isClicked = false;
 	private boolean isChecked = false;
-	private int howManyAround = 0;
+	public int howManyAround;
 	
 	// No-Arg Constructor
 	public Cell() {
@@ -36,6 +36,10 @@ public class Cell extends Button {
 		this.setMinHeight(35);
 		this.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
 		this.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+		
+		if(this.isMine) {
+			this.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
+		}
 	}
 	
 	// Mine Setter 
@@ -57,6 +61,7 @@ public class Cell extends Button {
 		PlayerBoardController controller = new PlayerBoardController(); 
 		ArrayList<String> mines = controller.mines; 
 		controller.addMines(); 
+		controller.setCellText();
 	} 
 	
 	// Handles userClick
@@ -112,7 +117,6 @@ public class Cell extends Button {
 	public void revealSelf() {
 		// Reveal the number if mine
 		this.setBackground(new Background(new BackgroundFill(Color.GRAY, CornerRadii.EMPTY, Insets.EMPTY)));
-		this.setText(String.valueOf(howManyAround));
 	}
 	
 	//TODO here is the variable to keep track of the current cell. don't forget to delete if it doesn't work
@@ -137,6 +141,7 @@ public class Cell extends Button {
 		if (j > 9 || j < 0) {
 			return 0;
 		}
+		
 		// 
 		if (cell.isChecked) {
 			System.out.println("already checked");
