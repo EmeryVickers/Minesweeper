@@ -112,6 +112,8 @@ public class Cell extends Button {
 	public void revealSelf() {
 		// Reveal the number if mine
 		this.setBackground(new Background(new BackgroundFill(Color.GRAY, CornerRadii.EMPTY, Insets.EMPTY)));
+		
+		// 
 		this.setText(String.valueOf(howManyAround));
 	}
 	
@@ -123,6 +125,7 @@ public class Cell extends Button {
 		System.out.println(i + " " + j);
 		String idString = i + "," + j;
 		
+		// 
 		Cell cell = Board.newInstance.getCell(idString);
 		
 		//TODO we need to get the actual cell. We are currently getting coordinates,

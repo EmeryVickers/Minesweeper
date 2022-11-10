@@ -2,8 +2,13 @@ package application;
 
 import java.util.ArrayList;
 
+import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 
 public class Board{
 	// No-Arg Constructor 
@@ -43,14 +48,15 @@ public class Board{
     	// Split ID of Cell into X/Y Coordinates 
     	String[] idSplitter = cell.getId().split("," , 0);
     	// Parse X/Y Coordinate of Cell 
-		int y = Integer.parseInt(idSplitter[0]);
-		int x = Integer.parseInt(idSplitter[1]);
-    	
+		int x = Integer.parseInt(idSplitter[0]);
+		int y = Integer.parseInt(idSplitter[1]);
+
 		// Loops through neighboring cells to the received cell and adding to "neighbors" ArrayList 
     	for(int k = -1; k<=1; k++) {
 			for(int l = -1; l <= 1; l++) {
 				String id = "" + (x + k) + "," + (y + l);
 				neighbors.add(getCell(id));
+				cell.setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
 			}
 		}
 

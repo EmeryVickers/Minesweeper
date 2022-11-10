@@ -77,7 +77,7 @@ public class PlayerBoardController {
 			}
 		}
 	}
-	
+	/**
 	// Generate Mines 
 	public void setCellText() { 
 		// Loop through neighbors and increment count for cell based on proximity to mine 
@@ -93,10 +93,11 @@ public class PlayerBoardController {
 					}
 				}
 				// Set the text on each cell with distance to neighboring mines 
+				
 				cell.setText("" + cell.getHowManyAround());
 			}
 		}
-	}
+	} **/
 	
 	// Add mines to Board 
 	public void addMines() {
