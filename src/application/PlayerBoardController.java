@@ -75,6 +75,32 @@ public class PlayerBoardController {
 	}
 	
 	// Generate Mines 
+	public void setCellText() {
+		// get the neigbors
+		
+		// loops thru that and if the cell has bomb then increment the counter ++
+		for (int i = 0; i < 10; i++) {
+			for (int j = 0; j < 10; j++) {
+				Cell cell = Board.newInstance.getCell(i+","+j);
+				int count = 0;
+				
+				//what would happen if the cell itself is a mine... handle that!
+				
+				for (Cell neighbor: Board.newInstance.getNeighbors(cell)) {
+					if (neighbor.isMine()) {
+						cell.setHowManyAround(count++);
+					}
+				}
+				
+				cell.setText(""+cell.getHowManyAround());
+				
+			}
+		}
+
+	}
+	
+	
+	//generates mines
 	public void addMines() {
         for (int i = 0; i < 10; i++) {
         	// Randomly select row and column to set mine locations 
