@@ -9,7 +9,7 @@ import javafx.scene.layout.GridPane;
 
 //main
 public class Main extends Application {
-	@Override
+	@Override 
 	public void start(Stage primaryStage) {
 		try {
 			// set a title for the Window
