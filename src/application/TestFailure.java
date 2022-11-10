@@ -16,7 +16,7 @@ class TestFailure {
 	//Generate accurate number of mines
 	@Test
 	void testTenMines() {
-		PlayerBoardController playerBoard = new PlayerBoardController(); 
+		Board playerBoard = new Board(); 
 		playerBoard.addMines();
 		
 		int numMines = playerBoard.mines.size();
@@ -27,7 +27,7 @@ class TestFailure {
 	
 	@Test
 	void testTotalCells() {
-		PlayerBoardController test = new PlayerBoardController(); 
+		Board tiles = new Board(); 
 		test.addTiles();
 		int totalCells = test.tiles.impl_getColumnCount();
 		int totalCells2 = test.tiles.impl_getRowCount();

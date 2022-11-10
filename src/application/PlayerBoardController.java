@@ -78,7 +78,6 @@ public class PlayerBoardController {
 			}
 		}
 	}
-	
 	// Generate Mines 
 	public void setCellText() { 
 		// Loop through neighbors and increment count for cell based on proximity to mine 
@@ -92,7 +91,6 @@ public class PlayerBoardController {
 					if (neighbor.isMine()) {
 						count = count + 1;
 						cell.howManyAround = count;
-						
 					}
 				}
 				
@@ -100,6 +98,7 @@ public class PlayerBoardController {
 				if (cell.getHowManyAround() != 0) {
 					cell.setText(""+cell.getHowManyAround());
 				}
+				cell.setText("" + cell.getHowManyAround());
 			}
 		}
 	}
