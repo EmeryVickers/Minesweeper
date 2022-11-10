@@ -21,7 +21,7 @@ public class Cell extends Button {
 	private int howManyAround = 0;
 	
 	public Cell() {
-		
+		this.setTextFill(Color.WHITE);
 	}
 	
 	//sets up tile and gets ID after generation
@@ -52,17 +52,19 @@ public class Cell extends Button {
 			
 			if(isMine) {
 				this.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
-				System.out.print("Game over");
-				return;
+				System.out.println("Game over");
+				// exit the program after displaying GAME OVER or reset the board
 			}			
 			//split
 			String[] idSplitter = id.split(",",0);
 			int y = Integer.parseInt(idSplitter[0]);
 			int x = Integer.parseInt(idSplitter[1]);
 			
-
-			int mines = callNeighbors(x,y);
-			revealSelf(mines);
+			for(Cell neighbor: Board.newInstance.getNeighbors(this)) {
+				if (!neighbor.isMine) {
+					neighbor.revealSelf();
+				}
+			}
 			isClicked = true;
 	
 		}
@@ -71,24 +73,40 @@ public class Cell extends Button {
 		
 	}
 	
-	public void revealSelf(int mine) {
+	public boolean isMine() {
+		return isMine;
+	}
+
+	public void setMine(boolean isMine) {
+		this.isMine = isMine;
+	}
+
+	public int getHowManyAround() {
+		return howManyAround;
+	}
+
+	public void setHowManyAround(int howManyAround) {
+		this.howManyAround = howManyAround;
+	}
+
+	public void revealSelf() {
 		// reveal the number if mine
 		this.setBackground(new Background(new BackgroundFill(Color.GRAY, CornerRadii.EMPTY, Insets.EMPTY)));
 		
 //		if(howManyAround==0) {
 //			
 //		} else {
-			this.setText(String.valueOf(mine));
+		this.setText(String.valueOf(howManyAround));
 //			}
 	}
-	
-	public int callNeighbors(Cell cell) {
-
-		
-		
-		return 0;
-	}
-	
+//	
+//	public int callNeighbors(Cell cell) {
+//
+//		for (int i = 0)
+//		
+//		return 0;
+//	}
+//	
 	
 	//TODO here is the variable to keep track of the current cell. dont forget to delete if it doesnt work
 	//Additionally, change all instances of "currCell" to "this"
@@ -122,16 +140,19 @@ public class Cell extends Button {
 			return 1;
 		}
 		
-		cell.howManyAround += cell.callNeighbors(i-1, j-1);
-		cell.howManyAround += cell.callNeighbors(i-1, j);
-		cell.howManyAround += cell.callNeighbors(i-1, j+1);
-		cell.howManyAround += cell.callNeighbors(i, j-1);
-		cell.howManyAround += cell.callNeighbors(i, j+1);
-		cell.howManyAround += cell.callNeighbors(i+1, j);
-		cell.howManyAround += cell.callNeighbors(i+1, j-1);
-		cell.howManyAround += cell.callNeighbors(i+1, j+1);
 		
-		return cell.howManyAround;
+	
+
+//		this.howManyAround += cell.callNeighbors(i-1, j-1);
+//		this.howManyAround += cell.callNeighbors(i-1, j);
+//		this.howManyAround += cell.callNeighbors(i-1, j+1);
+//		this.howManyAround += cell.callNeighbors(i, j-1);
+//		this.howManyAround += cell.callNeighbors(i, j+1);
+//		this.howManyAround += cell.callNeighbors(i+1, j);
+//		this.howManyAround += cell.callNeighbors(i+1, j-1);
+//		this.howManyAround += cell.callNeighbors(i+1, j+1);
+		
+		return this.howManyAround;
 		
 
 	}

@@ -1,5 +1,7 @@
 package application;
 
+import java.util.ArrayList;
+
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 
@@ -32,6 +34,23 @@ public class Board{
         }
         return new Cell();
 
+    }
+    
+    public ArrayList<Cell> getNeighbors(Cell cell) {
+    	ArrayList<Cell> neighbors = new ArrayList<>();
+    	
+    	String[] idSplitter = cell.getId().split(",",0);
+		int y = Integer.parseInt(idSplitter[0]);
+		int x = Integer.parseInt(idSplitter[1]);
+    	
+    	for(int k = -1; k<=1; k++) {
+			for(int l = -1; l<=1; l++) {
+				String id =""+(x+k)+","+(y+l);
+				neighbors.add(getCell(id));
+			}
+		}
+
+    	return neighbors;
     }
 	
 	
