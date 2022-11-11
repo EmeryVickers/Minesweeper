@@ -72,7 +72,7 @@ public class Board{
 			return false;
 		}
 		// 
-		if (x > 9 || x < 0) {
+		if (y > 9 || y < 0) {
 			return false;
 		}
     	return true;
@@ -90,4 +90,50 @@ public class Board{
     	 System.out.println("win!");
 	}
     
-}
+    public void revealNeighbors(Cell cell) {
+    	
+    	String id = cell.getId();
+
+    	String[] idSplitter = cell.getId().split("," , 0);
+    	// Parse X/Y Coordinate of Cell 
+		int x = Integer.parseInt(idSplitter[0]);
+		int y = Integer.parseInt(idSplitter[1]);
+    	
+		if (cell.isMine()) {
+			System.out.println("cell is a mine");
+			return ;
+		}
+		
+    	if (!isValid(x,y) ) {
+    		System.out.println("cell is not valid");
+    		return ;
+    	}
+    	
+    	if ( cell.getRevealed()) {
+    		System.out.println("cell is already revealed");
+    		return ;
+    	}
+    	
+    	cell.revealSelf();
+    	
+    	ArrayList<Cell> neighbors = getNeighbors(cell);
+    	revealNeighbors(neighbors.get(0));
+    	revealNeighbors(neighbors.get(1));
+    	revealNeighbors(neighbors.get(2));
+    	revealNeighbors(neighbors.get(3));
+    	revealNeighbors(neighbors.get(4));
+    	revealNeighbors(neighbors.get(5));
+    	revealNeighbors(neighbors.get(6));
+    	revealNeighbors(neighbors.get(7));
+    	
+    	
+//
+//    	
+//    	for(Cell neighbor: getNeighbors(cell)) {
+////    			System.out.println("cell is already revealed");
+//				revealNeighbors(neighbor);
+//				//System.out.println(neighbor.getRevealed())
+//    	}
+
+    }
+ }

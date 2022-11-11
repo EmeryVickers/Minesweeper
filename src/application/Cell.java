@@ -76,48 +76,41 @@ public class Cell extends Button {
 		//TODO add if statement so that user can only click when game isnt won/over
 			if(!isRevealed && !flagState) {
 				// If not a mine... 
-				isRevealed = true;
-				this.setBackground(new Background(new BackgroundFill(Color.GRAY, CornerRadii.EMPTY, Insets.EMPTY)));
+				
 				// Check if user clicked on mine 
 				if(isMine) {
 					this.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
 					// Exit the program after displaying GAME OVER or reset the board 
 					System.out.println("Game over");
-				}	
-				
-				// Split and Parse Cell ID into X/Y Coordinates 
-				String[] idSplitter = id.split(",",0);
-				int y = Integer.parseInt(idSplitter[0]);
-				int x = Integer.parseInt(idSplitter[1]);
-				
-				// 
-				for(Cell neighbor: Board.newInstance.getNeighbors(this)) {
-					if (!neighbor.isMine) {
-						neighbor.revealSelf();
-					}
+					return;
 				}
+				this.setBackground(new Background(new BackgroundFill(Color.GRAY, CornerRadii.EMPTY, Insets.EMPTY)));
+				
+				Board.newInstance.revealNeighbors(this);
+				isRevealed = true;
 			Board.newInstance.checkForWin();
 			}
 	}
 	
+	
+	
 	//flags or unflags a cell
 	public void toggleFlag() {
-		if(flagState) {
-			flagState = false;
-		}else {
-			flagState = true;
-			//set background to flag
-			/** TODO image won't display... return to fix
-			BackgroundImage bgImage = new BackgroundImage(new Image("minesweeper_flag.png",100,100,false,true),
-			BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
-			
-			this.setBackground(new Background(bgImage));
-			
-			Temporary fix below**/
-			
-			this.setText("F");
+		
+		flagState = !flagState;
+		this.setText(flagState ? "F" : "");
+		this.setTextFill(flagState ? Color.RED : Color.WHITE);
+		
+//		
+//			//set background to flag
+//			/** TODO image won't display... return to fix
+//			BackgroundImage bgImage = new BackgroundImage(new Image("minesweeper_flag.png",100,100,false,true),
+//			BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+//			
+//			this.setBackground(new Background(bgImage));
+//			
+//			Temporary fix below**/
 
-		}
 		
 	}
 	
@@ -149,8 +142,12 @@ public class Cell extends Button {
 	// Reveals the cell and shows number of mines
 	public void revealSelf() {
 		// Reveal the number if mine
-		this.setBackground(new Background(new BackgroundFill(Color.GRAY, CornerRadii.EMPTY, Insets.EMPTY)));
-		isRevealed = true;
+		if(!(this.isMine) && !(this.isRevealed) ){
+			this.setBackground(new Background(new BackgroundFill(Color.GRAY, CornerRadii.EMPTY, Insets.EMPTY)));
+			this.isRevealed = true;
+		} else {
+			return;
+		}
 	}
 	
 	//TODO here is the variable to keep track of the current cell. don't forget to delete if it doesn't work

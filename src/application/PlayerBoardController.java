@@ -11,6 +11,7 @@ import java.util.Random;
 
 import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -62,6 +63,8 @@ public class PlayerBoardController {
     	minesLeft = 10;
     	**/
     	
+    	Main.launchGame();
+    	
     }
     
     
@@ -78,24 +81,28 @@ public class PlayerBoardController {
 				// Temporary Cell/Tile -> to be added to the GridPane(tiles) 
 				Cell buttonTemp = new Cell(); 
 				// Handle "click" on each cell 
-				buttonTemp.setOnAction(new EventHandler<ActionEvent>() {
+				buttonTemp.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 					@Override
-					public void handle(ActionEvent a) {
+					public void handle(MouseEvent a) {
 						// If it is the first click... 
-						if (firstClick == true) {
-							firstClick = false;
-							Cell newCell = new Cell(); 
-							newCell.firstClick(buttonTemp); 
-						} else {
-							// If it is not the first click... 
-							buttonTemp.userClick(); 
+//						if (firstClick == true) {
+//							firstClick = false;
+//							Cell newCell = new Cell(); 
+//							newCell.firstClick(buttonTemp); 
+//						} else {
+							if (a.getButton() == MouseButton.SECONDARY) {
+						           buttonTemp.toggleFlag();
+						        } else {
+						        	// If it is not the first click... 
+						        	buttonTemp.userClick(); 
+							}
 							
 							/**TODO ad right click handler
 							if (a.getButton() == MouseButton.SECONDARY) {
 								
 							}
 							**/
-						}
+//						}
 					
 					}
 				});
