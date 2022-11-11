@@ -7,7 +7,7 @@ import javafx.scene.layout.GridPane;
 public class Board{
 	
 	// No-Arg Constructor 
-	private Board() {
+	Board() {
 	}
 
 	// Create Board GridPane
@@ -50,10 +50,10 @@ public class Board{
     	for (int k = -1; k <= 1; k++) {
 			for (int l = -1; l <= 1; l++) {
 				String id = "" + (x + k) + "," + (y + l);
-				// Check if location is valid 
+				// Check if neighbor location is valid 
 				if (isValid(x + k, y + l)) {
 					Cell neighbor = getCell(id);
-					// Check if 
+					// Check if iterated cell is != to cell and the neighbor is not revealed  
 					if (!cell.getID().equals(id) && !neighbor.getRevealed()) {
 						neighbors.add(neighbor);
 					}
@@ -61,6 +61,10 @@ public class Board{
 				
 			}
 		}
+    	
+    	for (int i = 0; i < neighbors.size(); i++) {
+    		System.out.println(neighbors.get(i).getID());
+    	}
     	return neighbors;
     }
     
