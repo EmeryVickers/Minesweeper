@@ -85,13 +85,15 @@ public class PlayerBoardController {
 					@Override
 					public void handle(MouseEvent a) {
 						// If it is the first click... 
-//						if (firstClick == true) {
-//							firstClick = false;
-//							Cell newCell = new Cell(); 
-//							newCell.firstClick(buttonTemp); 
-//						} else {
+						if (firstClick == true) {
+							firstClick = false;
+							Cell newCell = new Cell(); 
+							newCell.firstClick(buttonTemp); 
+						} else {
 							if (a.getButton() == MouseButton.SECONDARY) {
+								if (!buttonTemp.getRevealed()) {
 						           buttonTemp.toggleFlag();
+								}
 						        } else {
 						        	// If it is not the first click... 
 						        	buttonTemp.userClick(); 
@@ -102,7 +104,7 @@ public class PlayerBoardController {
 								
 							}
 							**/
-//						}
+						}
 					
 					}
 				});
@@ -134,7 +136,7 @@ public class PlayerBoardController {
 				}
 				
 				// Set the text on each cell with distance to neighboring mines 
-				if (cell.getHowManyAround() != 0) {
+				if (cell.getHowManyAround() != 0 && !cell.isMine()) {
 					cell.setText(""+cell.getHowManyAround());
 				}
 			}
@@ -154,9 +156,9 @@ public class PlayerBoardController {
                 mines.add(newMine);
                 // If mine location == location on Board instance  
                 for (Node c : Board.newInstance.getBombsBoard().getChildren()) {
-                	Cell cellC = (Cell)c;
-                	if(cellC.getId().equals(newMine)) {
-                		cellC.setMine();
+                	if(((Cell)c).getId().equals(newMine)) {
+                		((Cell)c).setMine();
+                		((Cell)c).setText("BOMB");
                 	}
                 }
             } else {

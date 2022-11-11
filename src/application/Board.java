@@ -11,7 +11,7 @@ public class Board{
 	}
 
 	// Create Board GridPane
-	GridPane tiles = new GridPane(); 
+	public static GridPane tiles = new GridPane(); 
 	public static Board newInstance = new Board();
 	
 	// GridPane "Tiles" Getter 
@@ -21,13 +21,13 @@ public class Board{
 
 	// Add Bombs to Singleton GridPane 
 	public void addToBombsBoard(Cell cell, int i, int j) {
-		this.tiles.add(cell, i,j);
+		tiles.add(cell, i,j);
 	}
 	
 	// Returns the current cell
     public Cell getCell(String xy) {
     	// Loops through cells in ArrayList of "Cells" and returns the cell with the matching ID 
-        for (Node c: this.tiles.getChildren()) {
+        for (Node c: tiles.getChildren()) {
             if (((Cell)c).getId().equals(xy)){
                 return (Cell)c;
             }
@@ -56,8 +56,9 @@ public class Board{
 				String id = "" + (x + k) + "," + (y + l);
 				
 				if (isValid(x+k,y+l)) {
-					if (!cell.getID().equals(id)) {
-						neighbors.add(getCell(id));
+					Cell neighbor = getCell(id);
+					if (!cell.getID().equals(id) && !neighbor.getRevealed()) {
+						neighbors.add(neighbor);
 					}
 				}
 				
@@ -81,7 +82,7 @@ public class Board{
     //check for if the player has won
     public void checkForWin() {
     	//if there exists a cell that isnt a mine and isnt broken, the user hasnt won yet
-    	 for (Node c: this.tiles.getChildren()) {
+    	 for (Node c: tiles.getChildren()) {
     		 if (!((Cell)c).isMine() && !((Cell)c).getRevealed()){
     			 return;
              }
@@ -90,7 +91,8 @@ public class Board{
     	 System.out.println("win!");
 	}
     
-    public void revealNeighbors(Cell cell) {
+    //recursively reveals neighbor
+    public boolean revealNeighbors(Cell cell) {
     	
     	String id = cell.getId();
 
@@ -99,41 +101,50 @@ public class Board{
 		int x = Integer.parseInt(idSplitter[0]);
 		int y = Integer.parseInt(idSplitter[1]);
     	
+		
 		if (cell.isMine()) {
 			System.out.println("cell is a mine");
-			return ;
+			return false;
 		}
 		
-    	if (!isValid(x,y) ) {
-    		System.out.println("cell is not valid");
-    		return ;
-    	}
+		if (cell.howManyAround > 0) {
+			cell.revealSelf();
+			return true;
+		}
+	
+		
+		cell.revealSelf();
     	
-    	if ( cell.getRevealed()) {
-    		System.out.println("cell is already revealed");
-    		return ;
-    	}
-    	
-    	cell.revealSelf();
-    	
-    	ArrayList<Cell> neighbors = getNeighbors(cell);
-    	revealNeighbors(neighbors.get(0));
-    	revealNeighbors(neighbors.get(1));
-    	revealNeighbors(neighbors.get(2));
-    	revealNeighbors(neighbors.get(3));
-    	revealNeighbors(neighbors.get(4));
-    	revealNeighbors(neighbors.get(5));
-    	revealNeighbors(neighbors.get(6));
-    	revealNeighbors(neighbors.get(7));
-    	
-    	
-//
-//    	
-//    	for(Cell neighbor: getNeighbors(cell)) {
-////    			System.out.println("cell is already revealed");
-//				revealNeighbors(neighbor);
-//				//System.out.println(neighbor.getRevealed())
+//    	if ( cell.getRevealed()) {
+//    		System.out.println("cell is already revealed");
+//    		return ;
 //    	}
+//    	
+//    	if (cell.howManyAround != 0) {
+//    		cell.revealSelf();
+//    		return;
+//    	}
+//    	
+    	
+//    	revealNeighbors(neighbors.get(0));
+//    	revealNeighbors(neighbors.get(1));
+//    	revealNeighbors(neighbors.get(2));
+//    	revealNeighbors(neighbors.get(3));
+//    	revealNeighbors(neighbors.get(4));
+//    	revealNeighbors(neighbors.get(5));
+//    	revealNeighbors(neighbors.get(6));
+//    	revealNeighbors(neighbors.get(7));
+//    	
+//    	
+//
+    	ArrayList<Cell> neighbors = getNeighbors(cell);
+    	for(Cell neighbor: neighbors) {
+    			
+				if (!revealNeighbors(neighbor))
+					break;
+				//System.out.println(neighbor.getRevealed())
+    	}
+		return true;
 
     }
  }

@@ -142,12 +142,10 @@ public class Cell extends Button {
 	// Reveals the cell and shows number of mines
 	public void revealSelf() {
 		// Reveal the number if mine
-		if(!(this.isMine) && !(this.isRevealed) ){
+//		if(!(this.isMine) && !(this.isRevealed) ){
 			this.setBackground(new Background(new BackgroundFill(Color.GRAY, CornerRadii.EMPTY, Insets.EMPTY)));
 			this.isRevealed = true;
-		} else {
-			return;
-		}
+		//}
 	}
 	
 	//TODO here is the variable to keep track of the current cell. don't forget to delete if it doesn't work
