@@ -1,17 +1,10 @@
 package application;
 
 import java.util.ArrayList;
-
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
@@ -20,15 +13,15 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 
 public class Cell extends Button {
-	// Private Data Field 
+	// Cell Data Field 
 	private String id = "";
 	private boolean isMine = false;
 	private boolean isRevealed = false;
 	private boolean isChecked = false;
-	public int howManyAround;
 	public boolean flagState = false;
+	public int howManyAround;
 	
-	// No-Arg Constructor
+	// Constructor 
 	public Cell() {
 		this.setTextFill(Color.WHITE);
 	}
@@ -37,13 +30,13 @@ public class Cell extends Button {
 	public void setTile(String id) {
 		// Tile ID 
 		this.id = id;
-		// Styling Tiles
+		// Style Tiles
 		this.setMinWidth(60);
 		this.setMinHeight(35);
 		this.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
 		this.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-		
-		if(this.isMine) {
+		// Style Mines 
+		if (this.isMine) {
 			this.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
 		}
 	}
@@ -65,7 +58,6 @@ public class Cell extends Button {
 		
 		// Add Mines AFTER First Click 
 		PlayerBoardController controller = new PlayerBoardController(); 
-		ArrayList<String> mines = controller.mines; 
 		controller.addMines(); 
 		controller.setCellText();
 		
@@ -73,58 +65,38 @@ public class Cell extends Button {
 	
 	// Handles userClick
 	public void userClick() {
-		//TODO add if statement so that user can only click when game isnt won/over
-			if(!isRevealed && !flagState) {
-				// If not a mine... 
+		// Verify click is not on revealed or flagged tile 
+		if(!isRevealed && !flagState) {
 				
-				// Check if user clicked on mine 
-				if(isMine) {
-					this.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
-					// Exit the program after displaying GAME OVER or reset the board 
-					System.out.println("Game over");
-					return;
-				}
-				this.setBackground(new Background(new BackgroundFill(Color.GRAY, CornerRadii.EMPTY, Insets.EMPTY)));
-				
-				Board.newInstance.revealNeighbors(this);
-				isRevealed = true;
-			
+			// Check if user clicked on mine 
+			if (isMine) {
+				// Style Mine
+				this.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
+				// Exit the program after displaying GAME OVER or reset the board 
+				System.out.println("Game over");
+				return;
 			}
+			
+			// Style Revealed Tile 
+			this.setBackground(new Background(new BackgroundFill(Color.GRAY, CornerRadii.EMPTY, Insets.EMPTY)));
+			Board.newInstance.revealNeighbors(this);
+			isRevealed = true;
+		}
 	}
 	
-	
-	
-	//flags or unflags a cell
+	// Flag/Remove Flag on Tile 
 	public void toggleFlag() {
-		
 		flagState = !flagState;
 		this.setText(flagState ? "F" : "");
 		this.setTextFill(flagState ? Color.RED : Color.WHITE);
-		
-//		
-//			//set background to flag
-//			/** TODO image won't display... return to fix
-//			BackgroundImage bgImage = new BackgroundImage(new Image("minesweeper_flag.png",100,100,false,true),
-//			BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
-//			
-//			this.setBackground(new Background(bgImage));
-//			
-//			Temporary fix below**/
-
-		
 	}
 	
-	// Find All Mines 
+	// Check if Mine
 	public boolean isMine() {
 		return isMine;
 	}
 
-	// Sets current cell as a mine
-	public void setMine(boolean isMine) {
-		this.isMine = isMine;
-	}
-
-	//gets whether cell is revealed or not
+	// Get Tile Revealed Status 
 	public boolean getRevealed() {
 		return isRevealed;
 	}
@@ -141,62 +113,46 @@ public class Cell extends Button {
 
 	// Reveals the cell and shows number of mines
 	public void revealSelf() {
-		// Reveal the number if mine
-//		if(!(this.isMine) && !(this.isRevealed) ){
+		//if user flagged cell
+		if(!flagState) {
+			// Style revealed tiles 
 			this.setBackground(new Background(new BackgroundFill(Color.GRAY, CornerRadii.EMPTY, Insets.EMPTY)));
 			this.isRevealed = true;
-			if(howManyAround>0 && isRevealed) {
-				this.setText(""+howManyAround);
+			
+			// Show amount of neighboring mines  
+			if (howManyAround > 0 && isRevealed) {
+				this.setText("" + howManyAround);
 			}
-		//}
+		}
+		
 	}
 	
-	//TODO here is the variable to keep track of the current cell. don't forget to delete if it doesn't work
-	//Additionally, change all instances of "currCell" to "this"
+	// Recursively check neighboring tiles and reveal based on conditions 
 	public int callNeighbors(int i, int j) {
-		
 		// Calls neighbors to recursively call the following cell's neighbors 
 		System.out.println(i + " " + j);
 		String idString = i + "," + j;
-		
 		Cell cell = Board.newInstance.getCell(idString);
 		
-		//TODO we need to get the actual cell. We are currently getting coordinates,
-		//but these are just integers. We need to access the actual cell that the coordinates are
-		//Here is my attempt (not correct):
-		
-		//
+		// Guarantee neighbor is within the borders 
 		if (i > 9 || i <0) {
 			return 0;
-		}
-		// 
-		if (j > 9 || j < 0) {
+		} if (j > 9 || j < 0) {
 			return 0;
 		}
-		
-		// 
+		// If the tile has already been checked, return the neighboring amount of mines 
 		if (cell.isChecked) {
-			System.out.println("already checked");
 			return howManyAround;
 		}
-		
-		//
+		// Show the tile has been checked 
 		cell.isChecked = true;
 		
-		// 
+		// Check if the tile is a mine and move past 
 		if (cell.isMine) {
 			System.out.println("mine");
 			return 1;
 		}
-	
+		// Return amount of neighboring mines 
 		return this.howManyAround; 
-//		this.howManyAround += cell.callNeighbors(i-1, j-1);
-//		this.howManyAround += cell.callNeighbors(i-1, j);
-//		this.howManyAround += cell.callNeighbors(i-1, j+1);
-//		this.howManyAround += cell.callNeighbors(i, j-1);
-//		this.howManyAround += cell.callNeighbors(i, j+1);
-//		this.howManyAround += cell.callNeighbors(i+1, j);
-//		this.howManyAround += cell.callNeighbors(i+1, j-1);
-//		this.howManyAround += cell.callNeighbors(i+1, j+1);
 	}
 }

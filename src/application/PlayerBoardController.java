@@ -1,34 +1,20 @@
 package application;
 
-import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
-
 import java.util.ArrayList;
-import java.util.Random;
-
 import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
-import javafx.stage.Stage;
+
 
 public class PlayerBoardController {
 
+	// ----- FXML Objects ----- // 
     @FXML
     public TextArea lossField;
 
@@ -44,21 +30,26 @@ public class PlayerBoardController {
     @FXML
     private BorderPane mainLayout;
     
-    int minesLeft = 10;
     
-    
+    // ----- Controller Methods ----- // 
     // Test if it is the user's first click 
     private Boolean firstClick = true; 
+    
     // ArrayList to hold each mine on the GridPane 
     public ArrayList<String> mines = new ArrayList<String>();
 
     // Add tiles to Board instance 
 	public void addTiles() {
 		// Loop through each GridPane coordinate 
+		// TODO: Find out whether i/j is row/col
+		// Loop through rows 
 		for (int i = 0; i < 10; i++) {
+			// Loop through columns 
 			for (int j = 0; j < 10; j++) {
+				
 				// Temporary Cell/Tile -> to be added to the GridPane(tiles) 
 				Cell buttonTemp = new Cell(); 
+				
 				// Handle "click" on each cell 
 				buttonTemp.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 					@Override
@@ -69,31 +60,25 @@ public class PlayerBoardController {
 							Cell newCell = new Cell(); 
 							newCell.firstClick(buttonTemp); 
 						} else {
+							// Check for FLAG (right-click)  
 							if (a.getButton() == MouseButton.SECONDARY) {
 								if (!buttonTemp.getRevealed()) {
 						           buttonTemp.toggleFlag();
 								}
-						        } else {
-						        	// If it is not the first click... 
-						        	buttonTemp.userClick(); 
-						        	if(Board.newInstance.checkForWin()) {
-						        		//winField.setText("You Win!");
-						        		System.out.println("You Win!");
-									}
+							} else {
+						        // If it is not the first click... 
+						        buttonTemp.userClick(); 
+						        // Check for win (all bombs are discovered) 
+						        if (Board.newInstance.checkForWin()) {
+						        	System.out.println("You Win!");
+								}
 							}
-							
-							/**TODO ad right click handler
-							if (a.getButton() == MouseButton.SECONDARY) {
-								
-							}
-							**/
 						}
-					
 					}
 				});
 				
-				
-				// Add button to Board instance
+				// Add button to Board instance with row/col as ID 
+				// TODO: Find out whether i/j is row/col
 				Board.newInstance.addToBombsBoard(buttonTemp, i, j);
 				buttonTemp.setId(i + "," + j);
 				buttonTemp.setTile(buttonTemp.getId());
@@ -101,33 +86,31 @@ public class PlayerBoardController {
 		}
 	}
 	
-	// Generate Mines 
+	// Show amount of neighboring mines 
 	public void setCellText() { 
 		// Loop through neighbors and increment count for cell based on proximity to mine 
+		// TODO: Find out whether i/j is row/col
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 10; j++) { 
+				
 				// Create instance of Board Cell 
 				Cell cell = Board.newInstance.getCell(i + "," + j);
-				int count = 0;
+
+				int count = 0;	// Count amount of neighboring mines 
 				// For each cell, find the neighboring cells and test if they are a mine 
 				for (Cell neighbor: Board.newInstance.getNeighbors(cell)) {
 					if (neighbor.isMine()) {
 						count = count + 1;
 						cell.howManyAround = count;
-						
 					}
 				}
-				
-//				// Set the text on each cell with distance to neighboring mines 
-//				if (cell.getHowManyAround() != 0 && !cell.isMine()) {
-//					cell.setText(""+cell.getHowManyAround());
-//				}
 			}
 		}
 	}
 	
 	// Add mines to Board 
 	public void addMines() {
+		
         for (int i = 0; i < 10; i++) {
         	// Randomly select row and column to set mine locations 
             int randomRow = (int) ((Math.random() * (10 - 0)) + 0);
@@ -137,14 +120,15 @@ public class PlayerBoardController {
             String newMine = (randomRow +","+ randomColumn);
             if (this.isNewMine(mines, newMine)) {
                 mines.add(newMine);
+                
                 // If mine location == location on Board instance  
                 for (Node c : Board.newInstance.getBombsBoard().getChildren()) {
-                	if(((Cell)c).getId().equals(newMine)) {
+                	if (((Cell)c).getId().equals(newMine)) {
                 		((Cell)c).setMine();
                 	}
                 }
+            // If mine location is taken, re-do process (to guarantee 10 mines) 
             } else {
-            	// If mine location is taken, re-do process (to guarantee 10 mines) 
                 i--;
             }
         }
@@ -161,10 +145,7 @@ public class PlayerBoardController {
             if (newMine.equals(mines.get(i))){
                 return false;
             }
-            
         }
         return true;
     }
-    
-    
 }

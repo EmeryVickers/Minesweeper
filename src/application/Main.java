@@ -12,10 +12,10 @@ public class Main extends Application {
 	@Override 
 	public void start(Stage primaryStage) {
 		try {
-			// set a title for the Window
+			// Set a title for the Window
 			primaryStage.setTitle("Minesweeper");
 			
-			// get an FXML loader and read in the fxml code
+			// Create FXML loader and read in the FXML code
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Main.class.getResource("/PlayerBoard.fxml"));
 			BorderPane mainLayout = (BorderPane)loader.load();
@@ -27,7 +27,7 @@ public class Main extends Application {
 			mainLayout.setCenter(tiles);
 
 			
-			// Create the scene with the layout in the fxml code, set the scene and show it
+			// Create the scene with the layout in the FXML code, set the scene and show it
 			Scene scene = new Scene(mainLayout);
 			primaryStage.setScene(scene);
 			primaryStage.show();
