@@ -126,33 +126,4 @@ public class Cell extends Button {
 		}
 		
 	}
-	
-	// Recursively check neighboring tiles and reveal based on conditions 
-	public int callNeighbors(int i, int j) {
-		// Calls neighbors to recursively call the following cell's neighbors 
-		System.out.println(i + " " + j);
-		String idString = i + "," + j;
-		Cell cell = Board.newInstance.getCell(idString);
-		
-		// Guarantee neighbor is within the borders 
-		if (i > 9 || i <0) {
-			return 0;
-		} if (j > 9 || j < 0) {
-			return 0;
-		}
-		// If the tile has already been checked, return the neighboring amount of mines 
-		if (cell.isChecked) {
-			return howManyAround;
-		}
-		// Show the tile has been checked 
-		cell.isChecked = true;
-		
-		// Check if the tile is a mine and move past 
-		if (cell.isMine) {
-			System.out.println("mine");
-			return 1;
-		}
-		// Return amount of neighboring mines 
-		return this.howManyAround; 
-	}
 }

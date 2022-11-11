@@ -41,7 +41,6 @@ public class PlayerBoardController {
     // Add tiles to Board instance 
 	public void addTiles() {
 		// Loop through each GridPane coordinate 
-		// TODO: Find out whether i/j is row/col
 		// Loop through rows 
 		for (int i = 0; i < 10; i++) {
 			// Loop through columns 
@@ -59,7 +58,7 @@ public class PlayerBoardController {
 							firstClick = false;
 							Cell newCell = new Cell(); 
 							newCell.firstClick(buttonTemp); 
-						} else {
+						}
 							// Check for FLAG (right-click)  
 							if (a.getButton() == MouseButton.SECONDARY) {
 								if (!buttonTemp.getRevealed()) {
@@ -74,11 +73,10 @@ public class PlayerBoardController {
 								}
 							}
 						}
-					}
+					
 				});
 				
 				// Add button to Board instance with row/col as ID 
-				// TODO: Find out whether i/j is row/col
 				Board.newInstance.addToBombsBoard(buttonTemp, i, j);
 				buttonTemp.setId(i + "," + j);
 				buttonTemp.setTile(buttonTemp.getId());
@@ -89,7 +87,6 @@ public class PlayerBoardController {
 	// Show amount of neighboring mines 
 	public void setCellText() { 
 		// Loop through neighbors and increment count for cell based on proximity to mine 
-		// TODO: Find out whether i/j is row/col
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 10; j++) { 
 				
