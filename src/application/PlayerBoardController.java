@@ -68,9 +68,11 @@ public class PlayerBoardController {
 						        // If it is not the first click... 
 						        buttonTemp.userClick(); 
 						        // Check for win (all bombs are discovered) 
-						        if (Board.newInstance.checkForWin()) {
-						        	System.out.println("You Win!");
-								}
+						        if(!Board.newInstance.gameOver) {
+							        if (Board.newInstance.checkForWin()) {
+							        	System.out.println("You Win!");
+									}
+						        }
 							}
 						}
 					

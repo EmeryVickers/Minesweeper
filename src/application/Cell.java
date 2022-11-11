@@ -52,7 +52,6 @@ public class Cell extends Button {
 	
 	// First Click of Game 
 	public void firstClick(Cell button) {
-		System.out.println("First Click\n" + button.id);
 		
 		// Add Mines AFTER First Click 
 		PlayerBoardController controller = new PlayerBoardController(); 
@@ -64,29 +63,34 @@ public class Cell extends Button {
 	// Handles userClick
 	public void userClick() {
 		// Verify click is not on revealed or flagged tile 
-		if(!isRevealed && !flagState) {
+		if(!Board.newInstance.gameOver) {
+			if(!isRevealed && !flagState) {
+					
+				// Check if user clicked on mine 
+				if (isMine) {
+					// Style Mine
+					this.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
+					// Exit the program after displaying GAME OVER or reset the board 
+					System.out.println("Game over");
+					Board.newInstance.loss();
+					return;
+				}
 				
-			// Check if user clicked on mine 
-			if (isMine) {
-				// Style Mine
-				this.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
-				// Exit the program after displaying GAME OVER or reset the board 
-				System.out.println("Game over");
-				return;
+				// Style Revealed Tile 
+				this.setBackground(new Background(new BackgroundFill(Color.GRAY, CornerRadii.EMPTY, Insets.EMPTY)));
+				Board.newInstance.revealNeighbors(this);
+				isRevealed = true;
 			}
-			
-			// Style Revealed Tile 
-			this.setBackground(new Background(new BackgroundFill(Color.GRAY, CornerRadii.EMPTY, Insets.EMPTY)));
-			Board.newInstance.revealNeighbors(this);
-			isRevealed = true;
 		}
 	}
 	
 	// Flag/Remove Flag on Tile 
 	public void toggleFlag() {
-		flagState = !flagState;
-		this.setText(flagState ? "F" : "");
-		this.setTextFill(flagState ? Color.RED : Color.WHITE);
+		if(!Board.newInstance.gameOver) {
+			flagState = !flagState;
+			this.setText(flagState ? "F" : "");
+			this.setTextFill(flagState ? Color.RED : Color.WHITE);
+		}
 	}
 	
 	// Check if Mine
