@@ -1,6 +1,5 @@
 package application;
 
-import java.util.ArrayList;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Background;
@@ -17,7 +16,6 @@ public class Cell extends Button {
 	private String id = "";
 	private boolean isMine = false;
 	private boolean isRevealed = false;
-	private boolean isChecked = false;
 	public boolean flagState = false;
 	public int howManyAround;
 	
