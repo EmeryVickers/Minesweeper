@@ -30,7 +30,7 @@ import javafx.stage.Stage;
 public class PlayerBoardController {
 
     @FXML
-    private TextArea clockField;
+    public TextArea lossField;
 
     @FXML
     private Button mainButton;
@@ -39,33 +39,12 @@ public class PlayerBoardController {
     private ImageView mainButtonImg;
 
     @FXML
-    private TextArea minesLeftField;
+    public TextArea winField;
     
     @FXML
     private BorderPane mainLayout;
     
     int minesLeft = 10;
-
-    
-    //handles when the main button is clicked based on the game state
-    @FXML
-    void mainButtonClick(MouseEvent event) {
-    	//if game hasnt started yet do nothing
-    	
-    	//if game has started, reset
-    	
-    	/** TODO this code doesn't fully reset everything, need to fix
-    	 * 
-    	firstClick = false;
-    	Main app = new Main();
-    	System.out.println("restart");
-    	app.start(new Stage());
-    	minesLeft = 10;
-    	**/
-    	
-    	Main.launchGame();
-    	
-    }
     
     
     // Test if it is the user's first click 
@@ -97,6 +76,10 @@ public class PlayerBoardController {
 						        } else {
 						        	// If it is not the first click... 
 						        	buttonTemp.userClick(); 
+						        	if(Board.newInstance.checkForWin()) {
+						        		//winField.setText("You Win!");
+						        		System.out.println("You Win!");
+									}
 							}
 							
 							/**TODO ad right click handler
@@ -135,10 +118,10 @@ public class PlayerBoardController {
 					}
 				}
 				
-				// Set the text on each cell with distance to neighboring mines 
-				if (cell.getHowManyAround() != 0 && !cell.isMine()) {
-					cell.setText(""+cell.getHowManyAround());
-				}
+//				// Set the text on each cell with distance to neighboring mines 
+//				if (cell.getHowManyAround() != 0 && !cell.isMine()) {
+//					cell.setText(""+cell.getHowManyAround());
+//				}
 			}
 		}
 	}
@@ -158,7 +141,6 @@ public class PlayerBoardController {
                 for (Node c : Board.newInstance.getBombsBoard().getChildren()) {
                 	if(((Cell)c).getId().equals(newMine)) {
                 		((Cell)c).setMine();
-                		((Cell)c).setText("BOMB");
                 	}
                 }
             } else {
@@ -185,14 +167,4 @@ public class PlayerBoardController {
     }
     
     
-    //adjust mine counter in top left
-    public void adjustMineCounter(Cell cell) {
-    	if(cell.flagState) {
-    		minesLeft = minesLeft-1;
-    		
-    	}else {
-    		minesLeft = minesLeft+1;
-    	}
-    	minesLeftField.setText("Mines: "+minesLeft);
-    }
 }

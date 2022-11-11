@@ -13,14 +13,14 @@
    <top>
       <HBox fillHeight="false" prefHeight="39.0" prefWidth="600.0" spacing="60.0" style="-fx-background-color: lightgray; -fx-border-color: black; -fx-border-width: 1.5;" BorderPane.alignment="CENTER">
          <children>
-            <TextArea fx:id="minesLeftField" blendMode="EXCLUSION" editable="false" maxHeight="45.0" maxWidth="150.0" minHeight="0.0" minWidth="0.0" prefHeight="45.0" prefWidth="150.0" style="-fx-border-color: black; -fx-font-weight: bold;" text="Mines:">
+            <TextArea fx:id="winField" blendMode="EXCLUSION" editable="false" maxHeight="45.0" maxWidth="150.0" minHeight="0.0" minWidth="0.0" prefHeight="45.0" prefWidth="150.0" style="-fx-border-color: black; -fx-font-weight: bold;">
                <HBox.margin>
                   <Insets left="50.0" right="50.0" top="5.0" />
                </HBox.margin>
                <font>
                   <Font size="16.0" />
                </font></TextArea>
-            <Button fx:id="mainButton" mnemonicParsing="false" onMouseClicked="#mainButtonClick" style="-fx-background-color: lightgray;">
+            <Button fx:id="mainButton" mnemonicParsing="false" style="-fx-background-color: lightgray;">
                <graphic>
                   <ImageView fx:id="mainButtonImg" fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -32,7 +32,7 @@
                   <Insets bottom="5.0" />
                </HBox.margin>
             </Button>
-            <TextArea fx:id="clockField" blendMode="EXCLUSION" editable="false" maxHeight="45.0" maxWidth="150.0" minHeight="0.0" minWidth="0.0" prefHeight="45.0" prefWidth="150.0" style="-fx-border-color: black; -fx-font-weight: bold;" text="Time:">
+            <TextArea fx:id="lossField" blendMode="EXCLUSION" editable="false" maxHeight="45.0" maxWidth="150.0" minHeight="0.0" minWidth="0.0" prefHeight="45.0" prefWidth="150.0" style="-fx-border-color: black; -fx-font-weight: bold;">
                <HBox.margin>
                   <Insets left="50.0" right="50.0" top="5.0" />
                </HBox.margin>

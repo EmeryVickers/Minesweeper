@@ -80,15 +80,15 @@ public class Board{
     }
     
     //check for if the player has won
-    public void checkForWin() {
+    public boolean checkForWin() {
     	//if there exists a cell that isnt a mine and isnt broken, the user hasnt won yet
     	 for (Node c: tiles.getChildren()) {
     		 if (!((Cell)c).isMine() && !((Cell)c).getRevealed()){
-    			 return;
+    			 return false;
              }
     		 
     	 }
-    	 System.out.println("win!");
+    	 return true;
 	}
     
     //recursively reveals neighbor

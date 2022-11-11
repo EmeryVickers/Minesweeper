@@ -88,7 +88,7 @@ public class Cell extends Button {
 				
 				Board.newInstance.revealNeighbors(this);
 				isRevealed = true;
-			Board.newInstance.checkForWin();
+			
 			}
 	}
 	
@@ -145,6 +145,9 @@ public class Cell extends Button {
 //		if(!(this.isMine) && !(this.isRevealed) ){
 			this.setBackground(new Background(new BackgroundFill(Color.GRAY, CornerRadii.EMPTY, Insets.EMPTY)));
 			this.isRevealed = true;
+			if(howManyAround>0 && isRevealed) {
+				this.setText(""+howManyAround);
+			}
 		//}
 	}
 	
