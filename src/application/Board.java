@@ -1,11 +1,19 @@
 package application;
 
 import java.util.ArrayList;
+
+import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 
 public class Board{
 	
+	//sets the game state
+	boolean gameOver = false;
 	// No-Arg Constructor 
 	Board() {
 	}
@@ -62,9 +70,7 @@ public class Board{
 			}
 		}
     	
-    	for (int i = 0; i < neighbors.size(); i++) {
-    		System.out.println(neighbors.get(i).getID());
-    	}
+    	
     	return neighbors;
     }
     
@@ -78,7 +84,7 @@ public class Board{
     	return true;
     }
     
-    // Check if the player has won  
+    // Check if the player has won and handles it
     public boolean checkForWin() {
     	// Check if there are cells that are -> A: not a mine & B: not revealed 
     	 for (Node c: tiles.getChildren()) {
@@ -87,14 +93,24 @@ public class Board{
              }
     	 }
     	 // If there are no remaining cells other than mines, the player has won 
+    	 gameOver = true;
     	 return true;
+	}
+    
+    //handles a loss
+	public void loss() {
+		for (Node c: tiles.getChildren()) {
+			if (((Cell)c).isMine()){
+				((Cell)c).setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
+				gameOver = true;
+   		 	}
+		}
 	}
     
     // Recursively Reveal Neighboring Tiles  
     public boolean revealNeighbors(Cell cell) {
     	// Check is Tile is Mine 
 		if (cell.isMine()) {
-			System.out.println("This cell is a mine.");
 			return false;
 		}
 		// Check if there are neighboring mines 
